@@ -11,7 +11,7 @@ namespace SteamDlcShopping.App.Views
         {
             InitializeComponent();
             _erpSteamApiKey = new();
-        } 
+        }
 
         //////////////////////////////////////// FORM ////////////////////////////////////////
 
