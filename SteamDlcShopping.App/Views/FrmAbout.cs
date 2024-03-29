@@ -11,7 +11,7 @@ public partial class FrmAbout : Form
     private async void FrmAbout_Load(object sender, EventArgs e)
     {
         lblVersion.Text = Application.ProductVersion;
-        _latestVersion = await CoreController.GetLatestVersionName(Application.ProductVersion);
+        _latestVersion = await CoreController.GetLatestVersionNameAsync(Application.ProductVersion);
 
         if (_latestVersion is null)
         {

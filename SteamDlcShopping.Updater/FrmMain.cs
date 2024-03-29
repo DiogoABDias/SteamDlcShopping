@@ -13,7 +13,7 @@ public partial class FrmMain : Form
         {
             lblProgress.Text = "Downloading the latest release...";
 
-            string url = await CoreController.GetLatestVersionUrl();
+            string url = await CoreController.GetLatestVersionUrlAsync();
             using Stream stream = await new HttpClient().GetStreamAsync(url);
             using FileStream fileStream = new("SteamDlcShopping.exe", FileMode.OpenOrCreate);
             await stream.CopyToAsync(fileStream);

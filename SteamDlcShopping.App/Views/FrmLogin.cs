@@ -55,8 +55,8 @@ public partial class FrmLogin : Form
 
             await webLogin.CoreWebView2.ExecuteScriptAsync("document.getElementsByClassName('responsive_header')[0].remove();");
             await webLogin.CoreWebView2.ExecuteScriptAsync("document.getElementsByClassName('login_bottom_row')[0].remove();");
-            await webLogin.CoreWebView2.ExecuteScriptAsync("document.querySelectorAll('[class^=newlogindialog_UseMobileAppForQR]')[0].remove();");
-            await webLogin.CoreWebView2.ExecuteScriptAsync("document.querySelector('[class^=newlogindialog_TextLink]').remove();");
+            await webLogin.CoreWebView2.ExecuteScriptAsync("document.querySelectorAll(\"a[class^='_']\")[0].remove()");
+            await webLogin.CoreWebView2.ExecuteScriptAsync("document.querySelectorAll(\"a[class^='_']\")[0].parentElement.remove()");
             await webLogin.CoreWebView2.ExecuteScriptAsync("document.body.style.overflow = 'hidden';");
             await webLogin.CoreWebView2.ExecuteScriptAsync("document.getElementsByClassName('page_content')[0].scrollIntoView({behavior: 'auto',block: 'center',inline: 'center'});");
 
@@ -78,7 +78,7 @@ public partial class FrmLogin : Form
     {
         if (webLogin.Source.AbsoluteUri == "https://store.steampowered.com/")
         {
-            List<CoreWebView2Cookie> cookies = await webLogin.CoreWebView2.CookieManager.GetCookiesAsync(null);
+            List<CoreWebView2Cookie> cookies = await webLogin.CoreWebView2.CookieManager.GetCookiesAsync("https://store.steampowered.com/");
 
             Settings.Default.SessionId = GetCookieValue(cookies, "sessionid");
             Settings.Default.SteamLoginSecure = GetCookieValue(cookies, "steamLoginSecure");

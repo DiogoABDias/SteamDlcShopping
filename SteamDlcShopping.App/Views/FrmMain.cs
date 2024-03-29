@@ -625,7 +625,7 @@ public partial class FrmMain : Form
             return;
         }
 
-        string? latestVersion = await CoreController.GetLatestVersionName(Application.ProductVersion);
+        string? latestVersion = await CoreController.GetLatestVersionNameAsync(Application.ProductVersion.Split('+')[0]);
 
         if (latestVersion is null)
         {

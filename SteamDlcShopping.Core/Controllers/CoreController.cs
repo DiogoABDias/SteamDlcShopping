@@ -4,7 +4,7 @@ namespace SteamDlcShopping.Core.Controllers;
 
 public static class CoreController
 {
-    public static async Task<string?> GetLatestVersionName(string currentVersion)
+    public static async Task<string?> GetLatestVersionNameAsync(string currentVersion)
     {
         GitHubClient client = new(new ProductHeaderValue("SteamDlcShopping"));
         Release release = await client.Repository.Release.GetLatest("DiogoABDias", "SteamDlcShopping");
@@ -16,7 +16,7 @@ public static class CoreController
         return versionComparison < 0 ? release.Name : null;
     }
 
-    public static async Task<string> GetLatestVersionUrl()
+    public static async Task<string> GetLatestVersionUrlAsync()
     {
         GitHubClient client = new(new ProductHeaderValue("SteamDlcShopping"));
         Release release = await client.Repository.Release.GetLatest("DiogoABDias", "SteamDlcShopping");
