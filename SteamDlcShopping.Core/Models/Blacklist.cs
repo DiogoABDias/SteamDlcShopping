@@ -30,7 +30,7 @@ internal class Blacklist
 
     internal void AddGame(int appId, string name, bool autoBlacklisted = true)
     {
-        Games ??= new();
+        Games ??= [];
 
         if (Games.Any(x => x.AppId == appId))
         {

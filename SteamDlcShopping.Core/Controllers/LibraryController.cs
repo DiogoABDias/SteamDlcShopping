@@ -64,7 +64,7 @@ public static class LibraryController
 
         try
         {
-            result = _library.DynamicStore.Any();
+            result = _library.DynamicStore.Count != 0;
         }
         catch (Exception exception)
         {
@@ -90,7 +90,7 @@ public static class LibraryController
 
         try
         {
-            result = _library.Games.Any();
+            result = _library.Games.Count != 0;
         }
         catch (Exception exception)
         {
@@ -122,7 +122,7 @@ public static class LibraryController
                 return;
             }
 
-            List<int> blacklist = new();
+            List<int> blacklist = [];
 
             foreach (Game game in _library.Games)
             {
@@ -202,7 +202,7 @@ public static class LibraryController
 
             await _library.RetryFailedGamesAsync();
 
-            List<int> blacklist = new();
+            List<int> blacklist = [];
 
             foreach (Game game in _library.Games.Where(x => gamesToFetch.Contains(x.AppId)))
             {
@@ -268,7 +268,7 @@ public static class LibraryController
     {
         LibraryView result = new()
         {
-            Games = new()
+            Games = []
         };
 
         if (_library is null)
@@ -335,7 +335,7 @@ public static class LibraryController
 
     public static List<DlcView> GetDlcs(int appId, string? filterName = null, bool filterOnSale = false, bool filterOwned = false)
     {
-        List<DlcView> result = new();
+        List<DlcView> result = [];
 
         if (_library is null)
         {
@@ -417,7 +417,7 @@ public static class LibraryController
 
     public static Dictionary<int, string> GetFreeDlcs()
     {
-        Dictionary<int, string> result = new();
+        Dictionary<int, string> result = [];
 
         if (_library is null)
         {

@@ -5,7 +5,7 @@ public partial class FrmBlacklist : Form
     public FrmBlacklist()
     {
         InitializeComponent();
-        _blacklist = new();
+        _blacklist = [];
     }
 
     //////////////////////////////////////// FORM ////////////////////////////////////////
@@ -72,7 +72,7 @@ public partial class FrmBlacklist : Form
 
     private async void BtnRemove_Click(object sender, EventArgs e)
     {
-        List<int> unblacklist = new();
+        List<int> unblacklist = [];
 
         foreach (object item in lsbBlacklist.SelectedItems)
         {
@@ -80,7 +80,7 @@ public partial class FrmBlacklist : Form
             unblacklist.Add(game.AppId);
         }
 
-        if (unblacklist.Any())
+        if (unblacklist.Count != 0)
         {
             await BlacklistController.RemoveGamesAsync(unblacklist);
 

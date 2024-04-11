@@ -283,11 +283,11 @@ public partial class FrmMain : Form
 
     private async void BtnBlacklist_Click(object sender, EventArgs e)
     {
-        List<int> appIds = new();
+        List<int> appIds = [];
 
         foreach (ListViewItem item in lsvGame.SelectedItems)
         {
-            if (!int.TryParse(item.Tag.ToString(), out int appId))
+            if (!int.TryParse(item.Tag?.ToString(), out int appId))
             {
                 continue;
             }
@@ -424,7 +424,7 @@ public partial class FrmMain : Form
         }
 
         //Parse the item tag
-        if (!int.TryParse(lsvGame.SelectedItems[0].Tag.ToString(), out int newGame))
+        if (!int.TryParse(lsvGame.SelectedItems[0].Tag?.ToString(), out int newGame))
         {
             _selectedGame = 0;
             return;

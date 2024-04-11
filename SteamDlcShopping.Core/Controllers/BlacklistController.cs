@@ -20,7 +20,7 @@ public static class BlacklistController
                 return false;
             }
 
-            return _blacklist.Games.Any();
+            return _blacklist.Games.Count != 0;
         }
     }
 
@@ -60,7 +60,7 @@ public static class BlacklistController
 
     internal static List<int> Get()
     {
-        List<int> result = new();
+        List<int> result = [];
 
         if (_blacklist is null)
         {
@@ -86,7 +86,7 @@ public static class BlacklistController
 
     public static List<GameBlacklistView> GetView(string? filterName = null, bool _filterAutoBlacklisted = false)
     {
-        List<GameBlacklistView> result = new();
+        List<GameBlacklistView> result = [];
 
         if (_blacklist is null)
         {

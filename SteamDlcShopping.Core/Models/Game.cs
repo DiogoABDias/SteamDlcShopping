@@ -1,11 +1,11 @@
 ﻿namespace SteamDlcShopping.Core.Models;
 
-internal class Game
+internal class Game(int appId = default, string? name = default)
 {
     //Properties
-    internal int AppId { get; }
+    internal int AppId { get; } = appId;
 
-    internal string? Name { get; }
+    internal string? Name { get; } = name;
 
     internal long? DlcTotalCurrentPrice { get; private set; }
 
@@ -19,15 +19,7 @@ internal class Game
 
     internal bool FailedFetch { get; private set; }
 
-    internal List<Dlc> DlcList { get; private set; }
-
-    //Constructor
-    public Game(int appId = default, string? name = default)
-    {
-        AppId = appId;
-        Name = name;
-        DlcList = new();
-    }
+    internal List<Dlc> DlcList { get; private set; } = [];
 
     //Methods
     internal async Task LoadDlcAsync()
@@ -81,8 +73,8 @@ internal class Game
             return;
         }
 
-        int from = dlcBrowse.InnerText.IndexOf("(") + 1;
-        int to = dlcBrowse.InnerText.LastIndexOf(")");
+        int from = dlcBrowse.InnerText.IndexOf('(') + 1;
+        int to = dlcBrowse.InnerText.LastIndexOf(')');
 
         if (int.TryParse(dlcBrowse.InnerText[from..to], out int count))
         {
@@ -97,7 +89,7 @@ internal class Game
             return;
         }
 
-        DlcList = new();
+        DlcList = [];
 
         foreach (HtmlNode node in dlcList)
         {

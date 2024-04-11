@@ -51,7 +51,7 @@ internal static class Currency
         int firstDigit = -1;
         int lastDigit = -1;
         int index = -1;
-        List<char> separators = new();
+        List<char> separators = [];
 
         foreach (char character in textPrice)
         {
@@ -85,7 +85,7 @@ internal static class Currency
 
         Template = textPrice.Replace(value, "<price>");
 
-        if (separators.Any())
+        if (separators.Count != 0)
         {
             if (separators.Count > 1)
             {
