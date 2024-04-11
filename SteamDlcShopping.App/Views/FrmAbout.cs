@@ -10,7 +10,7 @@ public partial class FrmAbout : Form
 
     private async void FrmAbout_Load(object sender, EventArgs e)
     {
-        lblVersion.Text = Application.ProductVersion;
+        lblVersion.Text = Application.ProductVersion.Split('+')[0];
         _latestVersion = await CoreController.GetLatestVersionNameAsync(Application.ProductVersion);
 
         if (_latestVersion is null)

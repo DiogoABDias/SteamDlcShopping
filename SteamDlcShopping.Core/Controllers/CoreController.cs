@@ -10,7 +10,7 @@ public static class CoreController
         Release release = await client.Repository.Release.GetLatest("DiogoABDias", "SteamDlcShopping");
 
         Version latestGitHubVersion = new(release.TagName[1..]);
-        Version localVersion = new(currentVersion);
+        Version localVersion = new(currentVersion.Split('+')[0]);
         int versionComparison = localVersion.CompareTo(latestGitHubVersion);
 
         return versionComparison < 0 ? release.Name : null;
