@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="SteamDlcShopping.App/SteamDlcShopping.App.csproj" />
+  <Project Path="SteamDlcShopping.Core/SteamDlcShopping.Core.csproj" />
+  <Project Path="SteamDlcShopping.Updater/SteamDlcShopping.Updater.csproj">
+    <BuildType Project="Release" />
+  </Project>
+</Solution>

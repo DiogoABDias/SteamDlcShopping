@@ -30,10 +30,7 @@ public partial class FrmMain : Form
 
         Control? ucLoad = Controls["ucLoad"];
 
-        if (ucLoad is not null)
-        {
-            ucLoad.Visible = false;
-        }
+        ucLoad?.Visible = false;
 
         await NewVersionAvailable();
 
@@ -233,18 +230,12 @@ public partial class FrmMain : Form
 
         Control? ucLoad = Controls["ucLoad"];
 
-        if (ucLoad is not null)
-        {
-            ucLoad.Visible = true;
-        }
+        ucLoad?.Visible = true;
 
         await SteamProfileController.LoginAsync(Settings.Default.SteamApiKey, Settings.Default.SessionId, Settings.Default.SteamLoginSecure);
         SetControlsState();
 
-        if (ucLoad is not null)
-        {
-            ucLoad.Visible = false;
-        }
+        ucLoad?.Visible = false;
     }
 
     private void BtnLogout_Click(object sender, EventArgs e)
@@ -587,7 +578,11 @@ public partial class FrmMain : Form
         {
             SteamProfileView steamProfile = SteamProfileController.GetSteamProfile();
 
-            ptbAvatar.LoadAsync(steamProfile.AvatarUrl);
+            if (steamProfile.AvatarUrl is not null)
+            {
+                ptbAvatar.LoadAsync(steamProfile.AvatarUrl);
+            }
+
             lblUsername.Text = steamProfile.Username;
             smiBlacklist.Enabled = BlacklistController.HasGames;
         }
@@ -641,10 +636,6 @@ public partial class FrmMain : Form
 
             return;
         }
-
-        File.Delete("Updater.exe");
-        await File.WriteAllBytesAsync($"{Environment.CurrentDirectory}\\Updater.exe", Resources.Updater);
-        File.SetAttributes("Updater.exe", FileAttributes.Hidden);
 
         Process.Start("Updater.exe");
         Application.Exit();

@@ -1,7 +1,10 @@
-﻿namespace SteamDlcShopping.App.Views;
+﻿using System.ComponentModel;
+
+namespace SteamDlcShopping.App.Views;
 
 public partial class FrmLogin : Form
 {
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool AccessDenied { get; set; }
 
     public FrmLogin() => InitializeComponent();

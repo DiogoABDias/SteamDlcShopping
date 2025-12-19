@@ -91,22 +91,11 @@ namespace SteamDlcShopping.App.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized string similar to .
         /// </summary>
-        internal static byte[] Updater {
+        internal static string Updater {
             get {
-                object obj = ResourceManager.GetObject("Updater", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] WebView2Loader {
-            get {
-                object obj = ResourceManager.GetObject("WebView2Loader", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("Updater", resourceCulture);
             }
         }
     }

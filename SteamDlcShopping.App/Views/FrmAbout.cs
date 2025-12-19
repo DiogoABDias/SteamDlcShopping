@@ -22,14 +22,10 @@ public partial class FrmAbout : Form
         lnkNewVersion.Visible = true;
     }
 
-    private async void LnkNewVersion_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+    private void LnkNewVersion_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
         Settings.Default.UpdateIgnored = false;
         Settings.Default.Save();
-
-        File.Delete("Updater.exe");
-        await File.WriteAllBytesAsync($"{Environment.CurrentDirectory}\\Updater.exe", Resources.Updater);
-        File.SetAttributes("Updater.exe", FileAttributes.Hidden);
 
         Process.Start("Updater.exe");
         Application.Exit();

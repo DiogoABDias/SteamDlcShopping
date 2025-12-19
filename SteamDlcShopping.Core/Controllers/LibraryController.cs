@@ -198,7 +198,7 @@ public static class LibraryController
                 return;
             }
 
-            List<int> gamesToFetch = _library.Games.Where(x => x.FailedFetch).Select(x => x.AppId).ToList();
+            List<int> gamesToFetch = [.. _library.Games.Where(x => x.FailedFetch).Select(x => x.AppId)];
 
             await _library.RetryFailedGamesAsync();
 
@@ -431,11 +431,11 @@ public static class LibraryController
 
         try
         {
-            List<Game> games = _library.Games.Where(x => x.DlcList.Any(y => !y.IsOwned && (y.IsFree || y.Price == 0 || y.Sale?.Percentage == 100))).ToList();
+            List<Game> games = [.. _library.Games.Where(x => x.DlcList.Any(y => !y.IsOwned && (y.IsFree || y.Price == 0 || y.Sale?.Percentage == 100)))];
 
             foreach (Game game in games)
             {
-                List<Dlc> dlcList = game.DlcList.Where(x => x.IsAvailable && !x.IsOwned && (x.IsFree || x.Price == 0 || x.Sale?.Percentage == 100)).ToList();
+                List<Dlc> dlcList = [.. game.DlcList.Where(x => x.IsAvailable && !x.IsOwned && (x.IsFree || x.Price == 0 || x.Sale?.Percentage == 100))];
 
                 dlcList.ForEach(x => result.Add(x.AppId, $"{game.Name} - {x.Name}"));
             }

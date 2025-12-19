@@ -46,7 +46,7 @@ internal class ListViewPlus : ListView
         }
 
         //Remove sorting characters from the previous column
-        if (_columnSorter.Column >= 0 && Columns[_columnSorter.Column].Tag != null && int.TryParse(Columns[_columnSorter.Column].Tag?.ToString(), out int length))
+        if (_columnSorter.Column >= 0 && Columns[_columnSorter.Column].Tag is not null && int.TryParse(Columns[_columnSorter.Column].Tag?.ToString(), out int length))
         {
             Columns[_columnSorter.Column].Text = Columns[_columnSorter.Column].Text[..length];
         }

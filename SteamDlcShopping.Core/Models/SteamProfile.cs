@@ -30,7 +30,7 @@ internal class SteamProfile
 
         if (index != -1)
         {
-            steamId = steamId.Remove(index);
+            steamId = steamId[..index];
         }
 
         Id = Convert.ToInt64(steamId);
