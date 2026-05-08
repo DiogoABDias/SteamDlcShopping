@@ -1,4 +1,7 @@
-﻿namespace SteamDlcShopping.App.Views;
+﻿using SteamDlcShopping.App.Properties;
+using SteamDlcShopping.Core.Controllers;
+
+namespace SteamDlcShopping.App.Views;
 
 public partial class FrmSettings : Form
 {
@@ -49,6 +52,7 @@ public partial class FrmSettings : Form
         ddlPageOpener.SelectedIndex = Settings.Default.OpenPageWithSteam ? 1 : 0;
 
         chkUseMemeLoading.Checked = Settings.Default.UseMemeLoading;
+        chkCheckForUpdates.Checked = Settings.Default.CheckForUpdates;
     }
 
     //////////////////////////////////////// STEAM API KEY ////////////////////////////////////////
@@ -87,7 +91,13 @@ public partial class FrmSettings : Form
 
         if (Settings.Default.AutoBlacklistReminder != ddlReminder.SelectedIndex)
         {
-            Settings.Default.AutoBlacklistLastReminder = DateTime.Now.Date;
+            Settings.Default.AutoBlacklistLastReminder = ddlReminder.SelectedIndex switch
+            {
+                0 => DateTime.Today.AddDays(7),
+                1 => DateTime.Today.AddMonths(1),
+                2 => DateTime.Today.AddYears(1),
+                _ => DateTime.MaxValue
+            };
         }
 
         Settings.Default.SteamApiKey = txtSteamApiKey.Text;
@@ -99,6 +109,8 @@ public partial class FrmSettings : Form
         Settings.Default.DlcSortDescending = ddlDlcSort.SelectedIndex % 2 == 0;
         Settings.Default.OpenPageWithSteam = ddlPageOpener.SelectedIndex == 1;
         Settings.Default.UseMemeLoading = chkUseMemeLoading.Checked;
+        Settings.Default.CheckForUpdates = chkCheckForUpdates.Checked;
+
         Settings.Default.Save();
 
         Close();

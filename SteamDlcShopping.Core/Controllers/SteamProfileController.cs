@@ -1,4 +1,7 @@
-﻿namespace SteamDlcShopping.Core.Controllers;
+﻿using SteamDlcShopping.Core.Models;
+using SteamDlcShopping.Core.ViewModels;
+
+namespace SteamDlcShopping.Core.Controllers;
 
 public static class SteamProfileController
 {

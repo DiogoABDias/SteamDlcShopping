@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using SteamDlcShopping.Core.Controllers;
+using System.Diagnostics;
 
 namespace SteamDlcShopping.App.Views;
 
@@ -24,11 +25,15 @@ public partial class FrmAbout : Form
 
     private void LnkNewVersion_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
-        Settings.Default.UpdateIgnored = false;
-        Settings.Default.Save();
-
-        Process.Start("Updater.exe");
-        Application.Exit();
+        if (File.Exists("Updater.exe"))
+        {
+            Process.Start("Updater.exe");
+            Application.Exit();
+        }
+        else
+        {
+            MessageBox.Show("Could not find Updater.exe. Please download the latest version manually.", "Steam DLC Shopping", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
     }
 
     private void LnkAbout_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => CoreController.OpenLink("https://github.com/DiogoABDias/SteamDlcShopping");

@@ -1,4 +1,7 @@
-﻿namespace SteamDlcShopping.Core;
+﻿using HtmlAgilityPack;
+using System.Globalization;
+
+namespace SteamDlcShopping.Core;
 
 internal static class Currency
 {

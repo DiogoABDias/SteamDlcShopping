@@ -1,4 +1,8 @@
-﻿namespace SteamDlcShopping.Core.Models;
+﻿using HtmlAgilityPack;
+using System.Net;
+using System.Web;
+
+namespace SteamDlcShopping.Core.Models;
 
 internal class Game(int appId = default, string? name = default)
 {
@@ -96,7 +100,7 @@ internal class Game(int appId = default, string? name = default)
             HtmlNode priceNode = node.SelectSingleNode("./div[@class='game_area_dlc_price']");
 
             string appId = node.Attributes["data-ds-appid"].Value;
-            string? name = WebUtility.HtmlDecode(node.SelectSingleNode("./div[@class='game_area_dlc_name']")?.InnerText?.Trim());
+            string? name = WebUtility.HtmlDecode(node.SelectSingleNode("./div[@class='game_area_dlc_name']")?.LastChild.InnerText?.Trim());
             string? price = priceNode.InnerText.Trim();
 
             string? originalPrice = priceNode.SelectSingleNode(".//div[@class='discount_original_price']")?.InnerText?.Trim();

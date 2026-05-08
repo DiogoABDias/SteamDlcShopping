@@ -1,4 +1,6 @@
-﻿namespace SteamDlcShopping.App.Extensibility;
+﻿using System.Collections;
+
+namespace SteamDlcShopping.App.Extensibility;
 
 public class ColumnSorter : IComparer
 {

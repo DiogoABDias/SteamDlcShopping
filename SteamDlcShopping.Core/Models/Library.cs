@@ -1,4 +1,8 @@
-﻿namespace SteamDlcShopping.Core.Models;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Net;
+
+namespace SteamDlcShopping.Core.Models;
 
 internal class Library
 {

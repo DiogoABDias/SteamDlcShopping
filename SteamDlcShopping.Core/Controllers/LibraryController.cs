@@ -1,4 +1,7 @@
-﻿namespace SteamDlcShopping.Core.Controllers;
+﻿using SteamDlcShopping.Core.Models;
+using SteamDlcShopping.Core.ViewModels;
+
+namespace SteamDlcShopping.Core.Controllers;
 
 public static class LibraryController
 {
@@ -100,7 +103,7 @@ public static class LibraryController
         return result;
     }
 
-    public static async Task CalculateAsync(string steamApiKey, string sessionId, string steamLoginSecure, bool autoBlacklist)
+    public static async Task CalculateAsync(string steamApiKey, string sessionId, string steamLoginSecure, bool ignoreBlacklist, bool autoBlacklist)
     {
         if (_library is null)
         {
@@ -111,9 +114,12 @@ public static class LibraryController
         {
             await _library.LoadDynamicStoreAsync(sessionId, steamLoginSecure);
             await _library.LoadGamesAsync(steamApiKey);
-            await BlacklistController.LoadAsync();
 
-            _library.ApplyBlacklist(BlacklistController.Get());
+            if (!ignoreBlacklist)
+            {
+                await BlacklistController.LoadAsync();
+                _library.ApplyBlacklist(BlacklistController.Get());
+            }
 
             await _library.LoadGamesDlcAsync();
 
@@ -168,14 +174,13 @@ public static class LibraryController
                 }
             }
 
-            if (autoBlacklist)
+            if (!ignoreBlacklist && autoBlacklist)
             {
                 await BlacklistController.AddGamesAsync(blacklist, true);
                 await BlacklistController.SaveAsync();
             }
 
             _library.ApplyBlacklist(blacklist);
-
             _library.Games.ForEach(x => x.CalculateDlcMetrics());
         }
         catch (Exception exception)
@@ -264,7 +269,7 @@ public static class LibraryController
         }
     }
 
-    public static LibraryView GetGames(string? filterName = null, bool filterOnSale = false)
+    public static LibraryView GetGames(string? filterName = null, bool filterOnSale = false, bool filterBlacklist = false)
     {
         LibraryView result = new()
         {
@@ -283,11 +288,17 @@ public static class LibraryController
 
         try
         {
+            List<GameBlacklistView> blacklist = BlacklistController.GetView();
             long totalCurrentPrice = 0;
             long totalFullPrice = 0;
 
             foreach (Game game in _library.Games)
             {
+                if (filterBlacklist && blacklist.Any(x => x.AppId == game.AppId))
+                {
+                    continue;
+                }
+
                 //Filter by name search
                 if (!string.IsNullOrWhiteSpace(game.Name) && !game.Name.Contains(filterName ?? string.Empty, StringComparison.InvariantCultureIgnoreCase))
                 {

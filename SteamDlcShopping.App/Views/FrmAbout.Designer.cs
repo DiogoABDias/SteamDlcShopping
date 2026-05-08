@@ -59,19 +59,19 @@
             lblVersion.AutoSize = true;
             lblVersion.Location = new Point(12, 37);
             lblVersion.Name = "lblVersion";
-            lblVersion.Size = new Size(37, 15);
+            lblVersion.Size = new Size(55, 15);
             lblVersion.TabIndex = 0;
-            lblVersion.Text = "v1.0.0";
+            lblVersion.Text = "v99.99.99";
             // 
             // lnkNewVersion
             // 
             lnkNewVersion.AutoSize = true;
-            lnkNewVersion.Location = new Point(55, 37);
+            lnkNewVersion.Location = new Point(73, 37);
             lnkNewVersion.Name = "lnkNewVersion";
-            lnkNewVersion.Size = new Size(78, 15);
+            lnkNewVersion.Size = new Size(75, 15);
             lnkNewVersion.TabIndex = 1;
             lnkNewVersion.TabStop = true;
-            lnkNewVersion.Text = "New version!!";
+            lnkNewVersion.Text = "New version!";
             lnkNewVersion.Visible = false;
             lnkNewVersion.LinkClicked += LnkNewVersion_LinkClicked;
             // 

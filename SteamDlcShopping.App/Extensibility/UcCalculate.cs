@@ -1,4 +1,6 @@
-﻿namespace SteamDlcShopping.App.Extensibility;
+﻿using SteamDlcShopping.App.Properties;
+
+namespace SteamDlcShopping.App.Extensibility;
 
 public partial class UcCalculate : UserControl
 {

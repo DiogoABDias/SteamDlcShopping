@@ -1,3 +1,6 @@
+using SteamDlcShopping.App.Properties;
+using SteamDlcShopping.App.Views;
+
 namespace SteamDlcShopping.App;
 
 internal static class Program

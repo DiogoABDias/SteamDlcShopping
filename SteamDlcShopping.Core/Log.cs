@@ -1,4 +1,7 @@
-﻿namespace SteamDlcShopping.Core;
+﻿using Serilog;
+using Serilog.Core;
+
+namespace SteamDlcShopping.Core;
 
 internal static class Log
 {

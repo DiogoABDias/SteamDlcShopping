@@ -1,4 +1,7 @@
-﻿namespace SteamDlcShopping.Core.Models;
+﻿using System.Net;
+using System.Xml;
+
+namespace SteamDlcShopping.Core.Models;
 
 internal class SteamProfile
 {

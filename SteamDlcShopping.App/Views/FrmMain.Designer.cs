@@ -49,6 +49,7 @@ namespace SteamDlcShopping.App.Views
             btnLogout = new Button();
             txtGameSearch = new TextBox();
             grbLibrary = new GroupBox();
+            chkFilterBlacklist = new CheckBox();
             lnkTooManyDlc = new LinkLabel();
             lblTooManyDlc = new Label();
             lblLibraryFullPrice = new Label();
@@ -64,6 +65,7 @@ namespace SteamDlcShopping.App.Views
             mnuMenu = new MenuStrip();
             smiAbout = new ToolStripMenuItem();
             btnRetryFailedGames = new Button();
+            chkIgnoreBlacklist = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)ptbAvatar).BeginInit();
             grbLibrary.SuspendLayout();
             mnuMenu.SuspendLayout();
@@ -217,6 +219,7 @@ namespace SteamDlcShopping.App.Views
             // 
             // grbLibrary
             // 
+            grbLibrary.Controls.Add(chkFilterBlacklist);
             grbLibrary.Controls.Add(lnkTooManyDlc);
             grbLibrary.Controls.Add(lblTooManyDlc);
             grbLibrary.Controls.Add(lblLibraryFullPrice);
@@ -237,6 +240,18 @@ namespace SteamDlcShopping.App.Views
             grbLibrary.TabIndex = 4;
             grbLibrary.TabStop = false;
             grbLibrary.Text = "Library";
+            // 
+            // chkFilterBlacklist
+            // 
+            chkFilterBlacklist.AutoSize = true;
+            chkFilterBlacklist.Location = new Point(368, 24);
+            chkFilterBlacklist.Name = "chkFilterBlacklist";
+            chkFilterBlacklist.Size = new Size(98, 19);
+            chkFilterBlacklist.TabIndex = 10;
+            chkFilterBlacklist.Text = "Filter blacklist";
+            chkFilterBlacklist.UseVisualStyleBackColor = true;
+            chkFilterBlacklist.Visible = false;
+            chkFilterBlacklist.CheckedChanged += ChkFilterBlacklist_CheckedChanged;
             // 
             // lnkTooManyDlc
             // 
@@ -375,11 +390,22 @@ namespace SteamDlcShopping.App.Views
             btnRetryFailedGames.UseVisualStyleBackColor = true;
             btnRetryFailedGames.Click += BtnRetryFailedGames_Click;
             // 
+            // chkIgnoreBlacklist
+            // 
+            chkIgnoreBlacklist.AutoSize = true;
+            chkIgnoreBlacklist.Location = new Point(172, 71);
+            chkIgnoreBlacklist.Name = "chkIgnoreBlacklist";
+            chkIgnoreBlacklist.Size = new Size(106, 19);
+            chkIgnoreBlacklist.TabIndex = 9;
+            chkIgnoreBlacklist.Text = "Ignore Blacklist";
+            chkIgnoreBlacklist.UseVisualStyleBackColor = true;
+            // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(717, 751);
+            Controls.Add(chkIgnoreBlacklist);
             Controls.Add(btnRetryFailedGames);
             Controls.Add(mnuMenu);
             Controls.Add(btnLogin);
@@ -441,5 +467,7 @@ namespace SteamDlcShopping.App.Views
         private ToolStripMenuItem smiAbout;
         private Label lblLibraryFullPrice;
         private Button btnRetryFailedGames;
+        private CheckBox chkIgnoreBlacklist;
+        private CheckBox chkFilterBlacklist;
     }
 }

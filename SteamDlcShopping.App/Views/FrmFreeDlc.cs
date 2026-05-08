@@ -1,4 +1,7 @@
-﻿namespace SteamDlcShopping.App.Views;
+﻿using SteamDlcShopping.App.Properties;
+using SteamDlcShopping.Core.Controllers;
+
+namespace SteamDlcShopping.App.Views;
 
 public partial class FrmFreeDlc : Form
 {

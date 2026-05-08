@@ -1,4 +1,8 @@
-﻿namespace SteamDlcShopping.App.Views;
+﻿using SteamDlcShopping.App.Properties;
+using SteamDlcShopping.Core.Controllers;
+using SteamDlcShopping.Core.ViewModels;
+
+namespace SteamDlcShopping.App.Views;
 
 public partial class FrmBlacklist : Form
 {

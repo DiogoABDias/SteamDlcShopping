@@ -1,4 +1,6 @@
-﻿namespace SteamDlcShopping.Core.Models;
+﻿using Newtonsoft.Json;
+
+namespace SteamDlcShopping.Core.Models;
 
 internal class Blacklist
 {

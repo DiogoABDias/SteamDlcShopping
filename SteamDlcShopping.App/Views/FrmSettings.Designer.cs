@@ -46,6 +46,7 @@
             chkUseMemeLoading = new CheckBox();
             ddlPageOpener = new ComboBox();
             lblPageOpener = new Label();
+            chkCheckForUpdates = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)pbtSteamApiKey).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ptbSmartLoading).BeginInit();
             SuspendLayout();
@@ -70,7 +71,7 @@
             // btnSave
             // 
             btnSave.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnSave.Location = new Point(236, 278);
+            btnSave.Location = new Point(236, 296);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(75, 23);
             btnSave.TabIndex = 9;
@@ -81,7 +82,7 @@
             // btnCancel
             // 
             btnCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnCancel.Location = new Point(317, 278);
+            btnCancel.Location = new Point(317, 296);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(75, 23);
             btnCancel.TabIndex = 10;
@@ -224,11 +225,23 @@
             lblPageOpener.TabIndex = 0;
             lblPageOpener.Text = "Open pages with";
             // 
+            // chkCheckForUpdates
+            // 
+            chkCheckForUpdates.AutoSize = true;
+            chkCheckForUpdates.CheckAlign = ContentAlignment.MiddleRight;
+            chkCheckForUpdates.Location = new Point(28, 268);
+            chkCheckForUpdates.Name = "chkCheckForUpdates";
+            chkCheckForUpdates.Size = new Size(179, 19);
+            chkCheckForUpdates.TabIndex = 11;
+            chkCheckForUpdates.Text = "Check for updates on startup";
+            chkCheckForUpdates.UseVisualStyleBackColor = true;
+            // 
             // FrmSettings
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(404, 313);
+            ClientSize = new Size(404, 331);
+            Controls.Add(chkCheckForUpdates);
             Controls.Add(ddlPageOpener);
             Controls.Add(lblPageOpener);
             Controls.Add(ddlDlcSort);
@@ -282,5 +295,6 @@
         private CheckBox chkUseMemeLoading;
         private ComboBox ddlPageOpener;
         private Label lblPageOpener;
+        private CheckBox chkCheckForUpdates;
     }
 }

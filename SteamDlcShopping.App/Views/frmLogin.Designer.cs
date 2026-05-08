@@ -39,7 +39,7 @@
             webLogin.DefaultBackgroundColor = Color.White;
             webLogin.Location = new Point(0, 0);
             webLogin.Name = "webLogin";
-            webLogin.Size = new Size(784, 495);
+            webLogin.Size = new Size(847, 625);
             webLogin.Source = new Uri("https://store.steampowered.com/login", UriKind.Absolute);
             webLogin.TabIndex = 1;
             webLogin.Visible = false;
@@ -52,7 +52,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(784, 495);
+            ClientSize = new Size(847, 625);
             Controls.Add(webLogin);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;

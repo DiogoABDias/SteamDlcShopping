@@ -20,7 +20,7 @@ public partial class FrmMain : Form
             fileStream.Close();
 
             lblProgress.ForeColor = Color.Green;
-            lblProgress.Text = "SteamDlcShopping successfully updated!";
+            lblProgress.Text = $"Successfully updated!{Environment.NewLine}SteamDlcShopping will be launched automatically.";
 
             string file = "SteamDlcShopping.exe";
 

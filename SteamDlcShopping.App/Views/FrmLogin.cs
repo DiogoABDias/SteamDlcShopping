@@ -1,4 +1,8 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.Web.WebView2.Core;
+using SteamDlcShopping.App.Extensibility;
+using SteamDlcShopping.App.Properties;
+using System.ComponentModel;
+using HtmlDocument = HtmlAgilityPack.HtmlDocument;
 
 namespace SteamDlcShopping.App.Views;
 
@@ -54,14 +58,26 @@ public partial class FrmLogin : Form
     {
         if (webLogin.Source.AbsoluteUri == "https://store.steampowered.com/login")
         {
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
 
-            await webLogin.CoreWebView2.ExecuteScriptAsync("document.getElementsByClassName('responsive_header')[0].remove();");
-            await webLogin.CoreWebView2.ExecuteScriptAsync("document.getElementsByClassName('login_bottom_row')[0].remove();");
-            await webLogin.CoreWebView2.ExecuteScriptAsync("document.querySelectorAll(\"a[class^='_']\")[0].remove()");
-            await webLogin.CoreWebView2.ExecuteScriptAsync("document.querySelectorAll(\"a[class^='_']\")[0].parentElement.remove()");
+            //Remove header, menu and footer
+            await webLogin.CoreWebView2.ExecuteScriptAsync("Array.from(document.getElementsByClassName('responsive_header')).forEach(x => { x.remove() });");
+            await webLogin.CoreWebView2.ExecuteScriptAsync("Array.from(document.querySelectorAll(\"div[data-featuretarget^='store-menu-v']\")).forEach(x => { x.remove() });");
+            await webLogin.CoreWebView2.ExecuteScriptAsync("Array.from(document.getElementsByClassName('login_bottom_row')).forEach(x => { x.remove() });");
+
+            //Remove form links
+            await webLogin.CoreWebView2.ExecuteScriptAsync("document.querySelectorAll(\"a[href*='wizard']\")[0].remove();");
+            await webLogin.CoreWebView2.ExecuteScriptAsync("document.querySelectorAll(\"a[href*='/mobile']\")[0].parentElement.remove();");
+
+            //Remove cookie popup
+            await webLogin.CoreWebView2.ExecuteScriptAsync("document.getElementById('cookiePrefPopup').remove();");
+
+            //Remove paddings
+            await webLogin.CoreWebView2.ExecuteScriptAsync("Array.from(document.getElementsByClassName('responsive_page_content')).forEach(x => { x.style.padding = '0px' });");
+            await webLogin.CoreWebView2.ExecuteScriptAsync("document.getElementById('responsive_page_template_content').style.padding = '0px';");
+
+            //Disable scrolling
             await webLogin.CoreWebView2.ExecuteScriptAsync("document.body.style.overflow = 'hidden';");
-            await webLogin.CoreWebView2.ExecuteScriptAsync("document.getElementsByClassName('page_content')[0].scrollIntoView({behavior: 'auto',block: 'center',inline: 'center'});");
 
             string html = await webLogin.ExecuteScriptAsync("document.documentElement.outerHTML");
             HtmlDocument htmlDocument = new();
@@ -74,6 +90,10 @@ public partial class FrmLogin : Form
             }
 
             webLogin.Visible = true;
+        }
+        else
+        {
+            webLogin.GoBack();
         }
     }
 

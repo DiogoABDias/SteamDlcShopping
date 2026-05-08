@@ -1,4 +1,9 @@
-﻿using System.Diagnostics;
+﻿using SteamDlcShopping.App.Extensibility;
+using SteamDlcShopping.App.Properties;
+using SteamDlcShopping.Core.Controllers;
+using SteamDlcShopping.Core.ViewModels;
+using System.Diagnostics;
+using Timer = System.Threading.Timer;
 
 namespace SteamDlcShopping.App.Views;
 
@@ -65,6 +70,7 @@ public partial class FrmMain : Form
             smiFreeDlc.Enabled = false;
             btnLogout.Enabled = false;
             btnCalculate.Enabled = false;
+            chkIgnoreBlacklist.Enabled = false;
             btnRetryFailedGames.Visible = false;
 
             _ignoreGameFilterEvents = true;
@@ -72,6 +78,8 @@ public partial class FrmMain : Form
 
             txtGameSearch.Text = null;
             chkHideGamesNotOnSale.Checked = false;
+            chkFilterBlacklist.Visible = chkIgnoreBlacklist.Checked;
+            chkFilterBlacklist.Checked = false;
             txtDlcSearch.Text = null;
             chkHideDlcNotOnSale.Checked = false;
             chkHideDlcOwned.Checked = false;
@@ -94,7 +102,7 @@ public partial class FrmMain : Form
             ucCalculate.BringToFront();
         }));
 
-        await LibraryController.CalculateAsync(Settings.Default.SteamApiKey, Settings.Default.SessionId, Settings.Default.SteamLoginSecure, Settings.Default.AutoBlacklist);
+        await LibraryController.CalculateAsync(Settings.Default.SteamApiKey, Settings.Default.SessionId, Settings.Default.SteamLoginSecure, chkIgnoreBlacklist.Checked, Settings.Default.AutoBlacklist);
 
         Invoke(new Action(() =>
         {
@@ -105,6 +113,7 @@ public partial class FrmMain : Form
             smiFreeDlc.Enabled = LibraryController.FreeDlcExist;
             btnLogout.Enabled = true;
             btnCalculate.Enabled = true;
+            chkIgnoreBlacklist.Enabled = true;
 
             int failedGames = LibraryController.FailedGames;
 
@@ -127,6 +136,7 @@ public partial class FrmMain : Form
             smiFreeDlc.Enabled = false;
             btnLogout.Enabled = false;
             btnCalculate.Enabled = false;
+            chkIgnoreBlacklist.Enabled = false;
             btnRetryFailedGames.Visible = false;
 
             _ignoreGameFilterEvents = true;
@@ -167,6 +177,7 @@ public partial class FrmMain : Form
             smiFreeDlc.Enabled = LibraryController.FreeDlcExist;
             btnLogout.Enabled = true;
             btnCalculate.Enabled = true;
+            chkIgnoreBlacklist.Enabled = true;
 
             int failedGames = LibraryController.FailedGames;
 
@@ -301,7 +312,7 @@ public partial class FrmMain : Form
 
     private void LoadGames()
     {
-        LibraryView library = LibraryController.GetGames(txtGameSearch.Text, chkHideGamesNotOnSale.Checked);
+        LibraryView library = LibraryController.GetGames(txtGameSearch.Text, chkHideGamesNotOnSale.Checked, chkFilterBlacklist.Checked);
 
         if (library.Games is null)
         {
@@ -553,6 +564,17 @@ public partial class FrmMain : Form
         UnloadDlc(false);
     }
 
+    private void ChkFilterBlacklist_CheckedChanged(object sender, EventArgs e)
+    {
+        if (_ignoreGameFilterEvents)
+        {
+            return;
+        }
+
+        LoadGames();
+        UnloadDlc(false);
+    }
+
     private void LsvDlc_FilterChanged(object sender, EventArgs e)
     {
         if (_ignoreDlcFilterEvents)
@@ -597,6 +619,7 @@ public partial class FrmMain : Form
         btnLogin.Visible = !session;
         btnLogout.Visible = session;
         btnCalculate.Enabled = session;
+        chkIgnoreBlacklist.Enabled = session;
         btnRetryFailedGames.Visible = false;
 
         UnloadGames();
@@ -615,7 +638,7 @@ public partial class FrmMain : Form
 
     private static async Task NewVersionAvailable()
     {
-        if (Settings.Default.UpdateIgnored)
+        if (!Settings.Default.CheckForUpdates)
         {
             return;
         }
@@ -631,14 +654,18 @@ public partial class FrmMain : Form
 
         if (result != DialogResult.Yes)
         {
-            Settings.Default.UpdateIgnored = true;
-            Settings.Default.Save();
-
             return;
         }
 
-        Process.Start("Updater.exe");
-        Application.Exit();
+        if (File.Exists("Updater.exe"))
+        {
+            Process.Start("Updater.exe");
+            Application.Exit();
+        }
+        else
+        {
+            MessageBox.Show("Could not find Updater.exe. Please download the latest version manually.", "Steam DLC Shopping", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
     }
 
     private static async void AutoBlacklistReminder()
@@ -649,31 +676,27 @@ public partial class FrmMain : Form
         }
 
         string timePeriod = string.Empty;
-        DateTime reminderDate = new();
         DateTime nextReminderDate = new();
 
         switch (Settings.Default.AutoBlacklistReminder)
         {
             case 0:
                 timePeriod = "week";
-                reminderDate = Settings.Default.AutoBlacklistLastReminder.AddDays(7);
-                nextReminderDate = DateTime.Today.Date.AddDays(7);
+                nextReminderDate = Settings.Default.AutoBlacklistLastReminder.AddDays(7);
                 break;
             case 1:
                 timePeriod = "month";
-                reminderDate = Settings.Default.AutoBlacklistLastReminder.AddMonths(1);
-                nextReminderDate = DateTime.Today.Date.AddMonths(1);
+                nextReminderDate = Settings.Default.AutoBlacklistLastReminder.AddMonths(1);
                 break;
             case 2:
                 timePeriod = "year";
-                reminderDate = Settings.Default.AutoBlacklistLastReminder.AddYears(1);
-                nextReminderDate = DateTime.Today.Date.AddYears(1);
+                nextReminderDate = Settings.Default.AutoBlacklistLastReminder.AddYears(1);
                 break;
             case 3:
                 return;
         }
 
-        if (DateTime.Today.Date < reminderDate.Date)
+        if (DateTime.Today.Date < Settings.Default.AutoBlacklistLastReminder.Date)
         {
             return;
         }
@@ -683,12 +706,11 @@ public partial class FrmMain : Form
 
         DialogResult result = MessageBox.Show(message, title, MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
 
-        if (result != DialogResult.OK)
+        if (result is DialogResult.OK)
         {
-            return;
+            await BlacklistController.ClearAutoBlacklistAsync();
         }
 
-        await BlacklistController.ClearAutoBlacklistAsync();
         Settings.Default.AutoBlacklistLastReminder = nextReminderDate;
         Settings.Default.Save();
     }
