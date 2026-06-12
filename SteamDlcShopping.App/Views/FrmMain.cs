@@ -166,7 +166,7 @@ public partial class FrmMain : Form
             ucCalculate.BringToFront();
         }));
 
-        await LibraryController.RetryFailedGamesAsync(Settings.Default.AutoBlacklist);
+        await LibraryController.RetryFailedGamesAsync(chkIgnoreBlacklist.Checked, Settings.Default.AutoBlacklist);
 
         Invoke(new Action(() =>
         {
@@ -297,7 +297,7 @@ public partial class FrmMain : Form
             appIds.Add(appId);
         }
 
-        await BlacklistController.AddGamesAsync(appIds, false);
+        await BlacklistController.AddGamesAsync(appIds, chkIgnoreBlacklist.Checked, false);
         smiBlacklist.Enabled = true;
 
         LoadGames();

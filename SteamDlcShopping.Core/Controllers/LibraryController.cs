@@ -115,9 +115,10 @@ public static class LibraryController
             await _library.LoadDynamicStoreAsync(sessionId, steamLoginSecure);
             await _library.LoadGamesAsync(steamApiKey);
 
+            await BlacklistController.LoadAsync();
+
             if (!ignoreBlacklist)
             {
-                await BlacklistController.LoadAsync();
                 _library.ApplyBlacklist(BlacklistController.Get());
             }
 
@@ -174,9 +175,9 @@ public static class LibraryController
                 }
             }
 
-            if (!ignoreBlacklist && autoBlacklist)
+            if (autoBlacklist)
             {
-                await BlacklistController.AddGamesAsync(blacklist, true);
+                await BlacklistController.AddGamesAsync(blacklist, ignoreBlacklist, true);
                 await BlacklistController.SaveAsync();
             }
 
@@ -189,7 +190,7 @@ public static class LibraryController
         }
     }
 
-    public static async Task RetryFailedGamesAsync(bool autoBlacklist)
+    public static async Task RetryFailedGamesAsync(bool ignoreBlacklist, bool autoBlacklist)
     {
         if (_library is null)
         {
@@ -255,7 +256,7 @@ public static class LibraryController
 
             if (autoBlacklist)
             {
-                await BlacklistController.AddGamesAsync(blacklist, true);
+                await BlacklistController.AddGamesAsync(blacklist, ignoreBlacklist, true);
                 await BlacklistController.SaveAsync();
             }
 

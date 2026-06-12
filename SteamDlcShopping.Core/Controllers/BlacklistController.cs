@@ -135,7 +135,7 @@ public static class BlacklistController
         return result;
     }
 
-    public static async Task AddGamesAsync(List<int> appIds, bool autoBlacklist)
+    public static async Task AddGamesAsync(List<int> appIds, bool ignoreBlacklist, bool autoBlacklist)
     {
         if (_blacklist is null)
         {
@@ -152,7 +152,10 @@ public static class BlacklistController
                 return;
             }
 
-            LibraryController.ApplyBlacklist(appIds);
+            if (!ignoreBlacklist)
+            {
+                LibraryController.ApplyBlacklist(appIds);
+            }
         }
         catch (Exception exception)
         {
